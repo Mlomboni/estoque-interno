@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste Firebase</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDk34kjSAl3....", // SUA API REAL
+      authDomain: "meu-projeto.firebaseapp.com",
+      projectId: "meu-projeto",
+      storageBucket: "meu-projeto.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    // Inicializar Firebase diretamente
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+</head>
+
+<body>
+
+  <h1>Teste de Conexão Firebase</h1>
+  <button id="btnTeste">Testar Conexão</button>
+  <div id="resultado" style="margin-top:20px; font-weight:bold;"></div>
+
+  <script>
+    document.getElementById('btnTeste').onclick = function() {
+      const resultado = document.getElementById('resultado');
+      
+      db.collection("testeConexao").add({
+        mensagem: "Hello World",
+        timestamp: new Date().toISOString()
+      })
+      .then((docRef) => {
+        resultado.innerHTML = "✅ Sucesso! Documento criado com ID: " + docRef.id;
+      })
+      .catch((error) => {
+        resultado.innerHTML = "❌ Erro ao conectar: " + error.message;
+      });
+    };
+  </script>
+
+</body>
+</html>
