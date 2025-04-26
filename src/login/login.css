@@ -8,7 +8,7 @@ body {
   background-size: 60%;
   background-attachment: fixed;
   min-height: 100vh;
-  
+  filter: brightness(95%);
 }
 
 /* Responsividade do tamanho da imagem */
@@ -19,7 +19,7 @@ body {
 }
 
 .login-container {
-  background-color: rgba(255, 255, 255, 0.7); /* Fundo branco semi-transparente para destacar o login */
+  background-color: rgba(255, 255, 255, 0.7); /* Fundo branco semi-transparente */
   padding: 40px;
   border-radius: 12px;
   text-align: center;
