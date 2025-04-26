@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estoque Interno - Produtos</title>
+  <link rel="stylesheet" href="/src/produtos/produtos.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsiU2QUrhHRQB0CI9LncLX1x4K-Psz1_Q",
+      authDomain: "estoque-minhaempresa.firebaseapp.com",
+      projectId: "estoque-minhaempresa",
+      storageBucket: "estoque-minhaempresa.appspot.com",
+      messagingSenderId: "783853281280",
+      appId: "1:783853281280:web:0c6913cc7a8e30c0c3f8e5"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+</head>
+
+<body>
+
+  <nav class="menu-topo">
+    <a href="/src/produtos/produtos.html">Produtos</a>
+    <a href="/src/movimentacao/movimentacao.html">Movimentação</a>
+    <a href="/src/usuarios/usuarios.html">Usuários</a>
+    <a href="/src/login/login.html">Sair</a>
+  </nav>
+
+  <div class="conteudo-principal">
+    <h1>Gestão de Produtos</h1>
+
+    <div class="filtro-pesquisa">
+      <label for="pesquisaTexto">Pesquisar:</label>
+      <input type="text" id="pesquisaTexto" placeholder="Digite para pesquisar...">
+      <select id="pesquisaColuna">
+        <option value="erp">ERP</option>
+        <option value="descricao">Descrição</option>
+        <option value="aplicacao">Aplicação</option>
+        <option value="modelo_codigo">Modelo ou Código</option>
+        <option value="quantidade">Quantidade</option>
+        <option value="localizacao">Localização</option> <!-- NOVO -->
+        <option value="ultima_movimentacao">Última Movimentação</option>
+      </select>
+      <button id="btnPesquisar">Pesquisar</button>
+      <button id="btnCadastrar">Cadastrar</button>
+    </div>
+
+    <div class="tabela-produtos">
+      <table>
+        <thead>
+          <tr>
+            <th>ERP</th>
+            <th>Descrição</th>
+            <th>Aplicação</th>
+            <th>Modelo ou Código</th>
+            <th>Quantidade</th>
+            <th>Localização</th> <!-- NOVO -->
+            <th>Última Movimentação</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaCorpo">
+          <!-- Conteúdo dinâmico -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal Cadastro -->
+    <div id="modalCadastro" class="modal">
+      <div class="modal-conteudo">
+        <span class="fechar" id="fecharModal">&times;</span>
+        <h2>Cadastrar Produto</h2>
+
+        <div class="formulario-cadastro">
+          <input type="text" id="cadastroErp" placeholder="ERP">
+          <input type="text" id="cadastroDescricao" placeholder="Descrição" required>
+          <input type="text" id="cadastroAplicacao" placeholder="Aplicação">
+          <input type="text" id="cadastroModelo" placeholder="Modelo ou Código">
+          <input type="number" id="cadastroQuantidade" placeholder="Quantidade" required>
+          <input type="text" id="cadastroLocalizacao" placeholder="Localização" required> <!-- NOVO -->
+          <button id="salvarProduto">Salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagem sucesso -->
+    <div id="mensagemSucesso" class="mensagem-sucesso" style="display:none;">
+      Produto cadastrado com sucesso!
+    </div>
+
+  </div>
+
+  <!-- Importando o JS separado -->
+  <script src="/src/produtos/produtos.js"></script>
+
+</body>
+</html>
