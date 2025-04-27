@@ -3,20 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estoque Interno - Login</title>
-  <link rel="stylesheet" href="/src/login/login.css">
+  <title>Login - Estoque Interno</title>
+  <link rel="stylesheet" href="login.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsiU2QUrhHRQB0CI9LncLX1x4K-Psz1_Q",
+      authDomain: "estoque-minhaempresa.firebaseapp.com",
+      projectId: "estoque-minhaempresa",
+      storageBucket: "estoque-minhaempresa.appspot.com",
+      messagingSenderId: "783853281280",
+      appId: "1:783853281280:web:0c6913cc7a8e30c0c3f8e5"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
+
 <body>
   <div class="login-container">
     <h1>ESTOQUE INTERNO</h1>
-
     <div class="formulario-login">
-      <input type="text" id="loginNome" placeholder="Login">
-      <input type="password" id="senha" placeholder="Senha">
-      <button id="loginBtn">Entrar</button>
+      <input type="text" id="loginEmail" placeholder="Login">
+      <input type="password" id="loginSenha" placeholder="Senha">
+      <button id="btnEntrar">Entrar</button>
     </div>
   </div>
 
-  <script src="/src/login/login.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
