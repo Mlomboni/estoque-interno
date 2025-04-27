@@ -1,22 +1,10 @@
-window.onload = function() {
-  const btnEntrar = document.getElementById('btnEntrar');
-  
-  btnEntrar.onclick = function() {
-    const email = document.getElementById('loginEmail').value.trim();
-    const senha = document.getElementById('loginSenha').value.trim();
+// login.js
 
-    if (email === '' || senha === '') {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
+window.onload = function () {
+  const loginButton = document.getElementById('btnEntrar');
 
-    firebase.auth().signInWithEmailAndPassword(email, senha)
-      .then(() => {
-        window.location.href = "produtos.html";
-      })
-      .catch((error) => {
-        alert('Erro ao fazer login. Verifique o email e senha.');
-        console.error(error);
-      });
-  };
+  loginButton.addEventListener('click', function () {
+    // Apenas redireciona para produtos.html
+    window.location.href = "/produtos.html";
+  });
 };
