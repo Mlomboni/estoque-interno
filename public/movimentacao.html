@@ -3,23 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estoque Interno - Movimentação</title>
-  <link rel="stylesheet" href="/src/movimentacao/movimentacao.css">
-</head>
-<body>
+  <title>Movimentação de Produtos</title>
+  <link rel="stylesheet" href="movimentacao.css">
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsiU2QUrhHRQB0CI9LncLX1x4K-Psz1_Q",
+      authDomain: "estoque-minhaempresa.firebaseapp.com",
+      projectId: "estoque-minhaempresa",
+      storageBucket: "estoque-minhaempresa.appspot.com",
+      messagingSenderId: "783853281280",
+      appId: "1:783853281280:web:0c6913cc7a8e30c0c3f8e5"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+</head>
+
+<body>
   <nav class="menu-topo">
-    <a href="/produtos.html">Produtos</a>
-    <a href="/movimentacao.html">Movimentação</a>
-    <a href="/usuarios.html">Usuários</a>
-    <a href="/login.html">Sair</a>
+    <a href="produtos.html">Produtos</a>
+    <a href="movimentacao.html">Movimentação</a>
+    <a href="usuarios.html">Usuários</a>
+    <a href="login.html">Sair</a>
   </nav>
 
   <div class="conteudo-principal">
-    <h1>Gestão de Movimentação</h1>
-    <!-- Conteúdo da movimentação aqui -->
+    <h1>Movimentação de Produtos</h1>
+
+    <div class="filtro-pesquisa">
+      <label for="pesquisaTextoMov">Pesquisar Produto:</label>
+      <input type="text" id="pesquisaTextoMov" placeholder="Digite para pesquisar...">
+      <button id="btnPesquisarMov">Pesquisar</button>
+    </div>
+
+    <div class="tabela-movimentacao">
+      <table>
+        <thead>
+          <tr>
+            <th>ERP</th>
+            <th>Descrição</th>
+            <th>Quantidade Atual</th>
+            <th>Quantidade Movimentada</th>
+            <th>Tipo de Movimentação</th>
+            <th>Data/Hora</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaMovimentacaoCorpo">
+          <!-- Conteúdo dinâmico -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal de movimentação -->
+    <div id="modalMovimentacao" class="modal">
+      <div class="modal-conteudo">
+        <span class="fechar" id="fecharModalMovimentacao">&times;</span>
+        <h2>Registrar Movimentação</h2>
+
+        <div class="formulario-cadastro">
+          <input type="text" id="movimentacaoErp" placeholder="ERP do Produto" required>
+          <input type="number" id="quantidadeMovimentada" placeholder="Quantidade" required>
+          <select id="tipoMovimentacao">
+            <option value="Entrada">Entrada</option>
+            <option value="Saída">Saída</option>
+          </select>
+
+          <button id="salvarMovimentacao">Salvar Movimentação</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mensagemSucessoMovimentacao" class="mensagem-sucesso">
+      Movimentação registrada com sucesso!
+    </div>
   </div>
 
-  <script src="/src/movimentacao/movimentacao.js"></script>
+  <!-- Importando JS separado -->
+  <script src="movimentacao.js"></script>
 </body>
 </html>
