@@ -159,6 +159,6 @@ window.onload = function () {
   };
 
   // 🚀 Carregar tudo ao abrir a página
-  carregarProdutosMovimentacao();
+ 
   carregarHistoricoMovimentacao();
 };
