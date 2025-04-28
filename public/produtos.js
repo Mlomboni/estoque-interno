@@ -4,14 +4,13 @@ window.onload = function() {
   const fecharModal = document.getElementById('fecharModal');
   const btnSalvar = document.getElementById('salvarProduto');
   const mensagemSucesso = document.getElementById('mensagemSucesso');
-  const btnPesquisar = document.getElementById('btnPesquisar');
 
   const inputErp = document.getElementById('cadastroErp');
   const inputDescricao = document.getElementById('cadastroDescricao');
   const inputAplicacao = document.getElementById('cadastroAplicacao');
   const inputModelo = document.getElementById('cadastroModelo');
   const inputQuantidade = document.getElementById('cadastroQuantidade');
-  const inputLocalizacao = document.getElementById('cadastroLocalizacao'); // NOVO
+  const inputLocalizacao = document.getElementById('cadastroLocalizacao');
 
   btnCadastrar.onclick = () => {
     modal.style.display = 'block';
@@ -29,12 +28,8 @@ window.onload = function() {
   };
 
   btnSalvar.onclick = () => {
-    if (
-      inputDescricao.value.trim() === '' || 
-      inputQuantidade.value.trim() === '' || 
-      inputLocalizacao.value.trim() === ''
-    ) {
-      alert('Por favor, preencha a Descrição, Quantidade e Localização antes de salvar.');
+    if (inputDescricao.value.trim() === '' || inputQuantidade.value.trim() === '' || inputLocalizacao.value.trim() === '') {
+      alert('Por favor, preencha Descrição, Quantidade e Localização antes de salvar.');
       return;
     }
 
@@ -44,7 +39,7 @@ window.onload = function() {
       aplicacao: inputAplicacao.value.trim(),
       modelo_codigo: inputModelo.value.trim(),
       quantidade: parseInt(inputQuantidade.value.trim()),
-      localizacao: inputLocalizacao.value.trim(), // NOVO
+      localizacao: inputLocalizacao.value.trim(),
       ultima_movimentacao: new Date().toLocaleString('pt-BR')
     };
 
@@ -56,7 +51,6 @@ window.onload = function() {
           mensagemSucesso.style.display = 'none';
         }, 3000);
         limparCampos();
-        carregarProdutos();
       })
       .catch((error) => {
         console.error("Erro ao salvar produto: ", error);
@@ -70,71 +64,6 @@ window.onload = function() {
     inputAplicacao.value = '';
     inputModelo.value = '';
     inputQuantidade.value = '';
-    inputLocalizacao.value = ''; // NOVO
+    inputLocalizacao.value = '';
   }
-
-  function carregarProdutos() {
-    const tabelaCorpo = document.getElementById('tabelaCorpo');
-    tabelaCorpo.innerHTML = '';
-
-    db.collection('produtos').get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const produto = doc.data();
-          const linha = `
-            <tr>
-              <td>${produto.erp || ''}</td>
-              <td>${produto.descricao || ''}</td>
-              <td>${produto.aplicacao || ''}</td>
-              <td>${produto.modelo_codigo || ''}</td>
-              <td>${produto.quantidade || ''}</td>
-              <td>${produto.localizacao || ''}</td> <!-- NOVO -->
-              <td>${produto.ultima_movimentacao || ''}</td>
-            </tr>
-          `;
-          tabelaCorpo.innerHTML += linha;
-        });
-      })
-      .catch((error) => {
-        console.error("Erro ao carregar produtos: ", error);
-      });
-  }
-
-  function pesquisarProdutos() {
-    const textoPesquisa = document.getElementById('pesquisaTexto').value.toLowerCase();
-    const colunaSelecionada = document.getElementById('pesquisaColuna').value;
-    const tabelaCorpo = document.getElementById('tabelaCorpo');
-
-    tabelaCorpo.innerHTML = '';
-
-    db.collection('produtos').get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const produto = doc.data();
-          const valorColuna = (produto[colunaSelecionada] || '').toString().toLowerCase();
-
-          if (valorColuna.includes(textoPesquisa)) {
-            const linha = `
-              <tr>
-                <td>${produto.erp || ''}</td>
-                <td>${produto.descricao || ''}</td>
-                <td>${produto.aplicacao || ''}</td>
-                <td>${produto.modelo_codigo || ''}</td>
-                <td>${produto.quantidade || ''}</td>
-                <td>${produto.localizacao || ''}</td> <!-- NOVO -->
-                <td>${produto.ultima_movimentacao || ''}</td>
-              </tr>
-            `;
-            tabelaCorpo.innerHTML += linha;
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Erro ao pesquisar produtos: ", error);
-      });
-  }
-
-  btnPesquisar.onclick = pesquisarProdutos;
-
-  carregarProdutos();
 };
