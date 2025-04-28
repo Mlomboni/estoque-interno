@@ -197,4 +197,30 @@ body {
 .botao-movimentar:hover {
   background-color: #45a049;
 }
+.tabela-movimentacao {
+  margin: 0 auto;
+  width: 90%;
+  overflow-x: auto;
+}
+
+.tabela-movimentacao table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabela-movimentacao th, .tabela-movimentacao td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.tabela-movimentacao th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.tabela-movimentacao tr:hover {
+  background-color: #d1ecf1; /* Azul claro no hover */
+}
 
