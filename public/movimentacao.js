@@ -5,6 +5,7 @@ window.onload = function () {
   const fecharModalMovimentacao = document.getElementById('fecharModalMovimentacao');
   const salvarMovimentacao = document.getElementById('salvarMovimentacao');
   const mensagemSucessoMovimentacao = document.getElementById('mensagemSucessoMovimentacao');
+  const tabelaHistorico = document.getElementById('tabelaHistoricoMovimentacao');
 
   const inputPesquisa = document.getElementById('pesquisaTextoMov');
   const inputErpMovimentacao = document.getElementById('movimentacaoErp');
@@ -50,6 +51,29 @@ window.onload = function () {
       });
     }).catch((error) => {
       console.error("Erro ao carregar produtos: ", error);
+    });
+  }
+
+  // Função para carregar o histórico de movimentações
+  function carregarHistoricoMovimentacao() {
+    tabelaHistorico.innerHTML = ''; // Limpa a tabela antes
+
+    db.collection("movimentacoes").orderBy("dataHora", "desc").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const movimentacao = doc.data();
+        const linha = `
+          <tr>
+            <td>${movimentacao.erp || ''}</td>
+            <td>${movimentacao.descricao || ''}</td>
+            <td>${movimentacao.quantidadeMovimentada || 0}</td>
+            <td>${movimentacao.tipoMovimentacao || ''}</td>
+            <td>${movimentacao.dataHora || ''}</td>
+          </tr>
+        `;
+        tabelaHistorico.innerHTML += linha;
+      });
+    }).catch((error) => {
+      console.error("Erro ao carregar histórico de movimentações: ", error);
     });
   }
 
@@ -117,7 +141,8 @@ window.onload = function () {
             setTimeout(() => {
               mensagemSucessoMovimentacao.style.display = 'none';
             }, 3000);
-            carregarProdutosMovimentacao(); // Atualizar a lista
+            carregarProdutosMovimentacao(); // Atualizar produtos
+            carregarHistoricoMovimentacao(); // Atualizar histórico
           });
         });
       }
@@ -133,6 +158,7 @@ window.onload = function () {
     carregarProdutosMovimentacao(texto);
   };
 
-  // 🚀 Carregar todos produtos ao abrir a página
+  // 🚀 Carregar tudo ao abrir a página
   carregarProdutosMovimentacao();
+  carregarHistoricoMovimentacao();
 };
