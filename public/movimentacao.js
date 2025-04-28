@@ -76,6 +76,32 @@ window.onload = function () {
       console.error("Erro ao carregar histórico de movimentações: ", error);
     });
   }
+function carregarUltimasMovimentacoes() {
+  tabelaHistorico.innerHTML = ''; // Limpa a tabela antes
+
+  db.collection("movimentacoes")
+    .orderBy("dataHora", "desc")
+    .limit(30)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const movimentacao = doc.data();
+        const linha = `
+          <tr>
+            <td>${movimentacao.erp || ''}</td>
+            <td>${movimentacao.descricao || ''}</td>
+            <td>${movimentacao.quantidadeMovimentada || 0}</td>
+            <td>${movimentacao.tipoMovimentacao || ''}</td>
+            <td>${movimentacao.dataHora || ''}</td>
+          </tr>
+        `;
+        tabelaHistorico.innerHTML += linha;
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao carregar últimas movimentações: ", error);
+    });
+}
 
   // Função para abrir modal e preencher ERP
   function abrirModalMovimentacao(produto) {
@@ -156,6 +182,12 @@ window.onload = function () {
   btnPesquisarMov.onclick = () => {
     const texto = inputPesquisa.value.trim();
     carregarProdutosMovimentacao(texto);
+    const btnRecentesMov = document.getElementById('btnRecentesMov');
+
+    btnRecentesMov.onclick = () => {
+      carregarUltimasMovimentacoes();
+    };
+
   };
 
   // 🚀 Carregar tudo ao abrir a página
