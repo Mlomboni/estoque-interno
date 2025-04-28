@@ -39,8 +39,12 @@ window.onload = function () {
             <td>-</td>
             <td>-</td>
             <td>-</td>
-            <td><button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button></td>
+            <td>
+              <button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button>
+              <button class="botao-historico" data-erp="${produto.erp}">Histórico</button>
+            </td>
           `;
+
           tabelaMovimentacaoCorpo.appendChild(linha);
         }
       });
@@ -49,6 +53,14 @@ window.onload = function () {
       document.querySelectorAll('.botao-movimentar').forEach(botao => {
         botao.onclick = () => abrirModalMovimentacao(botao.dataset);
       });
+      // Adicionar eventos aos botões "Histórico"
+      document.querySelectorAll('.botao-historico').forEach(botao => {
+        botao.onclick = () => {
+        const erpSelecionado = botao.dataset.erp;
+        carregarHistoricoDoProduto(erpSelecionado);
+  };
+});
+
     }).catch((error) => {
       console.error("Erro ao carregar produtos: ", error);
     });
@@ -102,6 +114,33 @@ function carregarUltimasMovimentacoes() {
       console.error("Erro ao carregar últimas movimentações: ", error);
     });
 }
+  function carregarHistoricoDoProduto(erp) {
+  tabelaHistorico.innerHTML = ''; // Limpa o histórico atual
+
+  db.collection("movimentacoes")
+    .where("erp", "==", erp)
+    .orderBy("dataHora", "desc")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const movimentacao = doc.data();
+        const linha = `
+          <tr>
+            <td>${movimentacao.erp || ''}</td>
+            <td>${movimentacao.descricao || ''}</td>
+            <td>${movimentacao.quantidadeMovimentada || 0}</td>
+            <td>${movimentacao.tipoMovimentacao || ''}</td>
+            <td>${movimentacao.dataHora || ''}</td>
+          </tr>
+        `;
+        tabelaHistorico.innerHTML += linha;
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao carregar histórico do produto: ", error);
+    });
+}
+
 
   // Função para abrir modal e preencher ERP
   function abrirModalMovimentacao(produto) {
