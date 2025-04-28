@@ -1,10 +1,10 @@
-window.onload = function() {
+window.onload = function () {
   const btnCadastrar = document.getElementById('btnCadastrar');
   const modal = document.getElementById('modalCadastro');
   const fecharModal = document.getElementById('fecharModal');
   const btnSalvar = document.getElementById('salvarProduto');
   const mensagemSucesso = document.getElementById('mensagemSucesso');
-
+  
   const inputErp = document.getElementById('cadastroErp');
   const inputDescricao = document.getElementById('cadastroDescricao');
   const inputAplicacao = document.getElementById('cadastroAplicacao');
@@ -28,7 +28,11 @@ window.onload = function() {
   };
 
   btnSalvar.onclick = () => {
-    if (inputDescricao.value.trim() === '' || inputQuantidade.value.trim() === '' || inputLocalizacao.value.trim() === '') {
+    if (
+      inputDescricao.value.trim() === '' ||
+      inputQuantidade.value.trim() === '' ||
+      inputLocalizacao.value.trim() === ''
+    ) {
       alert('Por favor, preencha Descrição, Quantidade e Localização antes de salvar.');
       return;
     }
