@@ -39,7 +39,7 @@ window.onload = function () {
             <td>
               <button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button>
               <button class="botao-historico" data-descricao="${produto.descricao}">Histórico</button>
-             // <button class="botao-excluir" data-id="${idProduto}">Excluir</button>
+            // Comenta o botão exluir para desativa-lo  // <button class="botao-excluir" data-id="${idProduto}">Excluir</
             </td>
           `;
 
@@ -47,7 +47,7 @@ window.onload = function () {
         }
       });
 
-      // Adicionar eventos aos botões "Movimentar"
+      // Adicionar eventos aos botões "Movimentar"  // <button class="botao-excluir" data-id="${idProduto}">Excluir</button>
       document.querySelectorAll('.botao-movimentar').forEach(botao => {
         botao.onclick = () => abrirModalMovimentacao(botao.dataset);
       });
