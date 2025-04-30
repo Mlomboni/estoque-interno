@@ -150,6 +150,20 @@ body {
   box-sizing: border-box;
 }
 
+.formulario-cadastro textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+
 .formulario-cadastro button {
   background-color: #4CAF50;
   color: white;
