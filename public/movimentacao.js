@@ -39,6 +39,7 @@ window.onload = function () {
             <td>
               <button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button>
               <button class="botao-historico" data-descricao="${produto.descricao}">Histórico</button>
+              <button class="botao-excluir" data-id="${idProduto}">Excluir</button>
             </td>
           `;
 
@@ -52,11 +53,26 @@ window.onload = function () {
       });
       // Adicionar eventos aos botões "Histórico"
       document.querySelectorAll('.botao-historico').forEach(botao => {
-  botao.onclick = () => {
-    const descricaoSelecionada = botao.dataset.descricao;
-    carregarHistoricoDoProduto(descricaoSelecionada);
-  };
-});
+        botao.onclick = () => {
+          const descricaoSelecionada = botao.dataset.descricao;
+          carregarHistoricoDoProduto(descricaoSelecionada);
+        };
+      });
+      // Adicionar eventos aos botões "Excluir"
+      document.querySelectorAll('.botao-excluir').forEach(botao => {
+          botao.onclick = () => {
+            const id = botao.dataset.id;
+            if (confirm("Deseja excluir este produto?")) {
+              db.collection("produtos").doc(id).delete().then(() => {
+                alert("Produto excluído com sucesso.");
+                carregarProdutosMovimentacao(); // Atualiza a lista
+              }).catch((error) => {
+                console.error("Erro ao excluir produto: ", error);
+                alert("Erro ao excluir produto.");
+              });
+            }
+          };
+        });
 
     }).catch((error) => {
       console.error("Erro ao carregar produtos: ", error);
