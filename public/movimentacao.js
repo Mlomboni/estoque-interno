@@ -120,7 +120,8 @@ function carregarUltimasMovimentacoes() {
       console.error("Erro ao carregar últimas movimentações: ", error);
     });
 }
-  function carregarHistoricoDoProduto(descricao) {
+
+function carregarHistoricoDoProduto(descricao) {
   tabelaHistorico.innerHTML = ''; // Limpa o histórico atual
 
   db.collection("movimentacoes")
@@ -128,22 +129,28 @@ function carregarUltimasMovimentacoes() {
     .orderBy("dataHora", "desc")
     .get()
     .then((querySnapshot) => {
+      if (querySnapshot.empty) {
+        tabelaHistorico.innerHTML = '<tr><td colspan="5">Nenhuma movimentação encontrada.</td></tr>';
+        return;
+      }
+
       querySnapshot.forEach((doc) => {
         const movimentacao = doc.data();
         const linha = `
           <tr>
-            <td>${movimentacao.erp || ''}</td>
-            <td>${movimentacao.descricao || ''}</td>
+            <td>${movimentacao.erp || '-'}</td>
+            <td>${movimentacao.descricao || '-'}</td>
             <td>${movimentacao.quantidadeMovimentada || 0}</td>
-            <td>${movimentacao.tipoMovimentacao || ''}</td>
-            <td>${movimentacao.dataHora || ''}</td>
+            <td>${movimentacao.tipoMovimentacao || '-'}</td>
+            <td>${movimentacao.dataHora || '-'}</td>
           </tr>
         `;
         tabelaHistorico.innerHTML += linha;
       });
     })
     .catch((error) => {
-      console.error("Erro ao carregar histórico do produto: ", error);
+      console.error("Erro ao carregar histórico do produto:", error);
+      tabelaHistorico.innerHTML = '<tr><td colspan="5">Erro ao carregar histórico.</td></tr>';
     });
 }
 
