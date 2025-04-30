@@ -83,27 +83,33 @@
 
     <!-- Modal de movimentação -->
     <div id="modalMovimentacao" class="modal">
-      <div class="modal-conteudo">
-        <span class="fechar" id="fecharModalMovimentacao">&times;</span>
-        <h2>Registrar Movimentação</h2>
+     <!-- Modal de movimentação -->
+<div id="modalMovimentacao" class="modal">
+  <div class="modal-conteudo">
+    <span class="fechar" id="fecharModalMovimentacao">&times;</span>
+    <h2>Registrar Movimentação</h2>
 
-        <div class="formulario-cadastro">
-          <input type="text" id="movimentacaoErp" placeholder="ERP do Produto" required>
-          <input type="number" id="quantidadeMovimentada" placeholder="Quantidade" required>
-          <select id="tipoMovimentacao">
-            <option value="Entrada">Entrada</option>
-            <option value="Saída">Saída</option>
-          </select>
+    <div class="formulario-cadastro">
+      <input type="text" id="movimentacaoErp" placeholder="ERP do Produto" required>
+      <input type="number" id="quantidadeMovimentada" placeholder="Quantidade" required>
 
-          <button id="salvarMovimentacao">Salvar Movimentação</button>
-        </div>
-      </div>
-    </div>
+      <select id="tipoMovimentacao">
+        <option value="Entrada">Entrada</option>
+        <option value="Saída">Saída</option>
+      </select>
 
-    <div id="mensagemSucessoMovimentacao" class="mensagem-sucesso">
-      Movimentação registrada com sucesso!
+      <!-- Novo campo obrigatório: Observação -->
+      <textarea id="observacaoMovimentacao" placeholder="Numero da OM ou motivo da movimentação." required></textarea>
+
+      <button id="salvarMovimentacao">Salvar Movimentação</button>
     </div>
   </div>
+</div>
+
+<div id="mensagemSucessoMovimentacao" class="mensagem-sucesso">
+  Movimentação registrada com sucesso!
+</div>
+
 
   <!-- Importando JS separado -->
   <script src="movimentacao.js"></script>
