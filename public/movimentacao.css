@@ -243,3 +243,14 @@ body {
   gap: 10px;
   align-items: center;
 }
+
+textarea#observacaoMovimentacao {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
