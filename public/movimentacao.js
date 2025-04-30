@@ -173,12 +173,18 @@ function carregarHistoricoDoProduto(descricao) {
 
   // Função para abrir modal e preencher ERP
   function abrirModalMovimentacao(produto) {
-    produtoSelecionado = produto;
-    inputErpMovimentacao.value = produto.erp;
-    inputQuantidadeMovimentada.value = '';
-    selectTipoMovimentacao.value = 'Entrada';
-    modalMovimentacao.style.display = 'block';
-  }
+  produtoSelecionado = produto;
+  inputErpMovimentacao.value = produto.erp;
+  inputQuantidadeMovimentada.value = '';
+  selectTipoMovimentacao.value = 'Entrada';
+  document.getElementById('observacaoMovimentacao').value = ''; // limpa o campo
+  modalMovimentacao.style.display = 'block';
+
+  setTimeout(() => {
+    inputQuantidadeMovimentada.focus(); // foco automático (opcional)
+  }, 100);
+}
+
 
   // Fechar modal
   fecharModalMovimentacao.onclick = () => {
