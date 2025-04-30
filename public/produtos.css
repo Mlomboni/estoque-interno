@@ -181,3 +181,12 @@ body {
   border-radius: 5px;
   text-align: center;
 }
+
+/* Corrige alinhamento dos botões na célula */
+td.acoes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px;
+}
