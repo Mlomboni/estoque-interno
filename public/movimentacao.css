@@ -140,44 +140,44 @@ body {
   text-decoration: none;
 }
 
-.formulario-cadastro input, .formulario-cadastro select {
-  width: 90%;
+.formulario-cadastro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.formulario-cadastro input,
+.formulario-cadastro select,
+.formulario-cadastro textarea,
+.formulario-cadastro button {
+  width: 100%;
+  max-width: 400px;
   padding: 10px;
-  margin: 8px 0;
-  display: inline-block;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
 }
 
 .formulario-cadastro textarea {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  display: block;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
   resize: vertical;
-  font-family: inherit;
-  font-size: 14px;
+  min-height: 60px;
 }
-
 
 .formulario-cadastro button {
   background-color: #4CAF50;
   color: white;
-  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  margin-top: 15px;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .formulario-cadastro button:hover {
   background-color: #45a049;
 }
+
 
 /* Mensagem de sucesso */
 .mensagem-sucesso {
