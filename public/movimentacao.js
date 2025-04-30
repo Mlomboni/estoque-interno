@@ -39,7 +39,7 @@ window.onload = function () {
             <td>
               <button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button>
               <button class="botao-historico" data-descricao="${produto.descricao}">Histórico</button>
-              <button class="botao-excluir" data-id="${idProduto}">Excluir</button>
+             // <button class="botao-excluir" data-id="${idProduto}">Excluir</button>
             </td>
           `;
 
