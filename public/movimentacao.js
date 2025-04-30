@@ -123,11 +123,11 @@ function carregarUltimasMovimentacoes() {
       console.error("Erro ao carregar últimas movimentações: ", error);
     });
 }
-  function carregarHistoricoDoProduto(erp) {
+  function carregarHistoricoDoProduto(descricao) {
   tabelaHistorico.innerHTML = ''; // Limpa o histórico atual
 
   db.collection("movimentacoes")
-    .where("erp", "==", erp)
+    .where("descricao", "==", descricao)
     .orderBy("dataHora", "desc")
     .get()
     .then((querySnapshot) => {
