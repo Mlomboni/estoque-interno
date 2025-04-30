@@ -81,23 +81,21 @@
   </table>
 </div>
 
-     <!-- Modal de movimentação -->
+    <!-- Modal de movimentação -->
 <div id="modalMovimentacao" class="modal">
   <div class="modal-conteudo">
     <span class="fechar" id="fecharModalMovimentacao">&times;</span>
     <h2>Registrar Movimentação</h2>
 
     <div class="formulario-cadastro">
-      <input type="text" id="movimentacaoErp" placeholder="ERP do Produto" required>
       <input type="number" id="quantidadeMovimentada" placeholder="Quantidade" required>
-      <input type="text" id="observacaoMovimentacao" placeholder="Número da OM ou motivo da movimentação." required>
+
+      <textarea id="observacaoMovimentacao" placeholder="Número da OM ou motivo da movimentação." required></textarea>
+
       <select id="tipoMovimentacao">
         <option value="Entrada">Entrada</option>
         <option value="Saída">Saída</option>
       </select>
-
-      <!-- Novo campo obrigatório: Observação -->
-      <textarea id="observacaoMovimentacao" placeholder="Numero da OM ou motivo da movimentação." required></textarea>
 
       <button id="salvarMovimentacao">Salvar Movimentação</button>
     </div>
@@ -107,6 +105,7 @@
 <div id="mensagemSucessoMovimentacao" class="mensagem-sucesso">
   Movimentação registrada com sucesso!
 </div>
+
 
 
   <!-- Importando JS separado -->
