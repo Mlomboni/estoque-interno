@@ -43,7 +43,17 @@
     const db = firebase.firestore();
 
     const produtos = [
-      {}
+      { descricao: "Sensor temperatura tr 2432", modelo_codigo: "tr 2432", quantidade: 6, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão pi2098", modelo_codigo: "pi2098", quantidade: 4, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão pi2097", modelo_codigo: "pi2097", quantidade: 4, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão pi 1098", modelo_codigo: "pi 1098", quantidade: 1, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão pi 1098 * usado", modelo_codigo: "pi 1098", quantidade: 2, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão p131 noding 0 - 40 bar", modelo_codigo: "p131.01-413-l14", quantidade: 3, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão p131 noding 0 - 10 bar", modelo_codigo: "p131.01-410-l14", quantidade: 2, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor pressão PM 2054", modelo_codigo: "PM 2054", quantidade: 3, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { descricao: "Sensor ORP", modelo_codigo: "cps12d-7pa21", quantidade: 2, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { erp: "39674", descricao: "Sensor PH", modelo_codigo: "cps11d-7aa2g", quantidade: 2, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" },
+      { erp: "39678", descricao: "Sensor de pressão ptp 31b -1 a 40 bar", modelo_codigo: "ptp 31b", quantidade: 2, localizacao: "AR08-CX04", ultima_movimentacao: "30/04/2025, 12:00:00" }
     ];
 
     function inserirProdutos() {
@@ -60,10 +70,60 @@
       });
     }
   </script>
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAsiU2QUrhHRQB0CI9LncLX1x4K-Psz1_Q",
+    authDomain: "estoque-minhaempresa.firebaseapp.com",
+    projectId: "estoque-minhaempresa",
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  function inserirProdutos() {
+    // seu código já existente aqui...
+  }
+
+  async function removerDuplicados() {
+    try {
+      const snapshot = await db.collection("produtos").get();
+      const registros = {};
+      const duplicados = [];
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const chave = `${data.erp}-${data.descricao}-${data.quantidade}`;
+        if (registros[chave]) {
+          duplicados.push(doc.id);
+        } else {
+          registros[chave] = true;
+        }
+      });
+
+      if (duplicados.length === 0) {
+        alert("Nenhum produto duplicado encontrado.");
+        return;
+      }
+
+      if (confirm(`Tem certeza que deseja excluir ${duplicados.length} produto(s) duplicado(s)?`)) {
+        for (const id of duplicados) {
+          await db.collection("produtos").doc(id).delete();
+        }
+        alert("Duplicados removidos com sucesso.");
+      }
+    } catch (error) {
+      console.error("Erro ao remover duplicados:", error);
+      alert("Erro ao remover duplicados.");
+    }
+  }
+</script>
+
 </head>
 <body>
   <h1>Inserir Produtos de Exemplo</h1>
   <button onclick="inserirProdutos()">Inserir produtos</button>
+  <button onclick="removerDuplicados()" style="background-color: #d9534f; color: white; margin-top: 10px;">
+  Remover Duplicados
   <div class="mensagem" id="mensagem"></div>
 </body>
 </html>
