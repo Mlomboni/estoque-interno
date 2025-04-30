@@ -192,59 +192,66 @@ function carregarHistoricoDoProduto(descricao) {
   };
 
   // Salvar movimentação
-  salvarMovimentacao.onclick = () => {
-    const quantidadeMovimentada = parseInt(inputQuantidadeMovimentada.value.trim());
-    const tipoMovimentacao = selectTipoMovimentacao.value;
+salvarMovimentacao.onclick = () => {
+  const quantidadeMovimentada = parseInt(inputQuantidadeMovimentada.value.trim());
+  const tipoMovimentacao = selectTipoMovimentacao.value;
+  const observacao = document.getElementById('observacaoMovimentacao').value.trim();
 
-    if (!quantidadeMovimentada || quantidadeMovimentada <= 0) {
-      alert('Informe uma quantidade válida.');
-      return;
-    }
+  if (!quantidadeMovimentada || quantidadeMovimentada <= 0) {
+    alert('Informe uma quantidade válida.');
+    return;
+  }
 
-    const idProduto = produtoSelecionado.id;
+  if (!observacao) {
+    alert('O campo "Observação" é obrigatório.');
+    return;
+  }
 
-    // Atualizar a quantidade no produto
-    const produtoRef = db.collection('produtos').doc(idProduto);
+  const idProduto = produtoSelecionado.id;
 
-    produtoRef.get().then((doc) => {
-      if (doc.exists) {
-        const dadosProduto = doc.data();
-        let novaQuantidade = dadosProduto.quantidade || 0;
+  const produtoRef = db.collection('produtos').doc(idProduto);
 
-        if (tipoMovimentacao === 'Entrada') {
-          novaQuantidade += quantidadeMovimentada;
-        } else {
-          novaQuantidade -= quantidadeMovimentada;
-          if (novaQuantidade < 0) novaQuantidade = 0; // não permitir estoque negativo
-        }
+  produtoRef.get().then((doc) => {
+    if (doc.exists) {
+      const dadosProduto = doc.data();
+      let novaQuantidade = dadosProduto.quantidade || 0;
 
-        produtoRef.update({
-          quantidade: novaQuantidade,
-          ultima_movimentacao: new Date().toLocaleString('pt-BR')
-        }).then(() => {
-          // Registrar movimentação no histórico
-          db.collection('movimentacoes').add({
-            erp: produtoSelecionado.erp,
-            descricao: produtoSelecionado.descricao,
-            quantidadeMovimentada: quantidadeMovimentada,
-            tipoMovimentacao: tipoMovimentacao,
-            dataHora: new Date().toLocaleString('pt-BR')
-          }).then(() => {
-            modalMovimentacao.style.display = 'none';
-            mensagemSucessoMovimentacao.style.display = 'block';
-            setTimeout(() => {
-              mensagemSucessoMovimentacao.style.display = 'none';
-            }, 3000);
-            carregarProdutosMovimentacao(); // Atualizar produtos
-            carregarHistoricoMovimentacao(); // Atualizar histórico
-          });
-        });
+      if (tipoMovimentacao === 'Entrada') {
+        novaQuantidade += quantidadeMovimentada;
+      } else {
+        novaQuantidade -= quantidadeMovimentada;
+        if (novaQuantidade < 0) novaQuantidade = 0;
       }
-    }).catch((error) => {
-      console.error("Erro ao movimentar produto: ", error);
-      alert('Erro ao movimentar produto.');
-    });
-  };
+
+      produtoRef.update({
+        quantidade: novaQuantidade,
+        ultima_movimentacao: new Date().toLocaleString('pt-BR')
+      }).then(() => {
+        // Registrar movimentação no histórico
+        db.collection('movimentacoes').add({
+          erp: produtoSelecionado.erp,
+          descricao: produtoSelecionado.descricao,
+          quantidadeMovimentada: quantidadeMovimentada,
+          tipoMovimentacao: tipoMovimentacao,
+          observacao: observacao, // <--- Novo campo salvo no banco
+          dataHora: new Date().toLocaleString('pt-BR')
+        }).then(() => {
+          modalMovimentacao.style.display = 'none';
+          mensagemSucessoMovimentacao.style.display = 'block';
+          setTimeout(() => {
+            mensagemSucessoMovimentacao.style.display = 'none';
+          }, 3000);
+          carregarProdutosMovimentacao();
+          carregarHistoricoMovimentacao();
+        });
+      });
+    }
+  }).catch((error) => {
+    console.error("Erro ao movimentar produto: ", error);
+    alert('Erro ao movimentar produto.');
+  });
+};
+
 
   // Botão pesquisar
   btnPesquisarMov.onclick = () => {
