@@ -97,6 +97,7 @@ window.onload = function () {
             <td>${movimentacao.descricao || '-'}</td>
             <td>${movimentacao.quantidadeMovimentada || 0}</td>
             <td>${movimentacao.tipoMovimentacao || '-'}</td>
+            <td>${movimentacao.observacao || '—'}</td>
             <td>${movimentacao.dataHora || '-'}</td>
           </tr>
         `;
