@@ -264,19 +264,18 @@ salvarMovimentacao.onclick = () => {
 
   // Botão pesquisar
   btnPesquisarMov.onclick = () => {
-  const texto = inputPesquisa.value.trim().toLowerCase();
-  const coluna = document.getElementById("pesquisaColuna").value;
+  const textoPesquisa = document.getElementById('pesquisaTextoMov').value.trim().toLowerCase();
+  const colunaPesquisa = document.getElementById('pesquisaColuna').value;
 
-  tabelaMovimentacaoCorpo.innerHTML = ''; // Limpa a tabela
+  tabelaMovimentacaoCorpo.innerHTML = '';
 
   db.collection("produtos").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       const produto = doc.data();
       const idProduto = doc.id;
+      const valorColuna = (produto[colunaPesquisa] || '').toString().toLowerCase();
 
-      const campo = (produto[coluna] || '').toLowerCase();
-
-      if (campo.includes(texto)) {
+      if (valorColuna.includes(textoPesquisa)) {
         const linha = document.createElement('tr');
         linha.innerHTML = `
           <td>${produto.erp || ''}</td>
@@ -287,7 +286,6 @@ salvarMovimentacao.onclick = () => {
             <button class="botao-historico" data-descricao="${produto.descricao}">Histórico</button>
           </td>
         `;
-
         tabelaMovimentacaoCorpo.appendChild(linha);
       }
     });
@@ -302,8 +300,11 @@ salvarMovimentacao.onclick = () => {
         carregarHistoricoDoProduto(descricaoSelecionada);
       };
     });
+  }).catch((error) => {
+    console.error("Erro ao pesquisar produtos: ", error);
   });
 };
+
 
 
   // 🚀 Carregar tudo ao abrir a página
