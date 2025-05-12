@@ -264,15 +264,47 @@ salvarMovimentacao.onclick = () => {
 
   // Botão pesquisar
   btnPesquisarMov.onclick = () => {
-    const texto = inputPesquisa.value.trim();
-    carregarProdutosMovimentacao(texto);
-    const btnRecentesMov = document.getElementById('btnRecentesMov');
+  const texto = inputPesquisa.value.trim().toLowerCase();
+  const coluna = document.getElementById("pesquisaColuna").value;
 
-    btnRecentesMov.onclick = () => {
-      carregarUltimasMovimentacoes();
-    };
+  tabelaMovimentacaoCorpo.innerHTML = ''; // Limpa a tabela
 
-  };
+  db.collection("produtos").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const produto = doc.data();
+      const idProduto = doc.id;
+
+      const campo = (produto[coluna] || '').toLowerCase();
+
+      if (campo.includes(texto)) {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+          <td>${produto.erp || ''}</td>
+          <td>${produto.descricao || ''}</td>
+          <td>${produto.quantidade || 0}</td>
+          <td>
+            <button class="botao-movimentar" data-id="${idProduto}" data-erp="${produto.erp}" data-descricao="${produto.descricao}">Movimentar</button>
+            <button class="botao-historico" data-descricao="${produto.descricao}">Histórico</button>
+          </td>
+        `;
+
+        tabelaMovimentacaoCorpo.appendChild(linha);
+      }
+    });
+
+    document.querySelectorAll('.botao-movimentar').forEach(botao => {
+      botao.onclick = () => abrirModalMovimentacao(botao.dataset);
+    });
+
+    document.querySelectorAll('.botao-historico').forEach(botao => {
+      botao.onclick = () => {
+        const descricaoSelecionada = botao.dataset.descricao;
+        carregarHistoricoDoProduto(descricaoSelecionada);
+      };
+    });
+  });
+};
+
 
   // 🚀 Carregar tudo ao abrir a página
  
