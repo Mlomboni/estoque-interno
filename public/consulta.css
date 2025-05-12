@@ -100,3 +100,10 @@ body {
 .tabela-consulta tr:hover {
   background-color: #e0f7e9;
 }
+
+/* ✅ Ajuste para a coluna Cod Item */
+.tabela-consulta td:first-child,
+.tabela-consulta th:first-child {
+  min-width: 160px;
+  white-space: nowrap;
+}
