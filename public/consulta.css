@@ -1,4 +1,12 @@
 body {
+  background-image: url('engrenagem-fundo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  background-attachment: fixed;
+}
+
+body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #ffffff;
