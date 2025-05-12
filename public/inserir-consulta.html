@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Inserir Dados na Consulta</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsiU2QUrhHRQB0CI9LncLX1x4K-Psz1_Q",
+      authDomain: "estoque-minhaempresa.firebaseapp.com",
+      projectId: "estoque-minhaempresa",
+      storageBucket: "estoque-minhaempresa.appspot.com",
+      messagingSenderId: "783853281280",
+      appId: "1:783853281280:web:0c6913cc7a8e30c0c3f8e5"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 200px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+
+<body>
+  <h2>Inserir registros na coleção "consulta"</h2>
+
+  <p>Cole abaixo os dados no formato:</p>
+  <pre>{"codItem": "...", "descricao": "...", "narrativa": "...", "situacao": "..."}</pre>
+  <p>Um objeto por linha</p>
+
+  <textarea id="dadosInput" placeholder='{
+  "codItem": "12345",
+  "descricao": "Item de teste",
+  "narrativa": "Narrativa exemplo",
+  "situacao": "Disponível"
+}'></textarea>
+
+  <br>
+  <button onclick="inserirDados()">Inserir no Firestore</button>
+
+  <script>
+    function inserirDados() {
+      const areaTexto = document.getElementById('dadosInput').value.trim();
+      if (!areaTexto) return alert('Cole pelo menos um item.');
+
+      const linhas = areaTexto.split('\n');
+      let sucesso = 0;
+      let erros = 0;
+
+      linhas.forEach((linha, i) => {
+        try {
+          const obj = JSON.parse(linha);
+          db.collection('consulta').add(obj).then(() => {
+            sucesso++;
+            if (sucesso + erros === linhas.length) alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
+          });
+        } catch (e) {
+          console.error(`Erro na linha ${i + 1}:`, e);
+          erros++;
+          if (sucesso + erros === linhas.length) alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
