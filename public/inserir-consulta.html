@@ -48,27 +48,38 @@
 
   <script>
     function inserirDados() {
-      const areaTexto = document.getElementById('dadosInput').value.trim();
-      if (!areaTexto) return alert('Cole pelo menos um item.');
+    const areaTexto = document.getElementById('dadosInput').value.trim();
+    if (!areaTexto) return alert('Cole pelo menos um item.');
 
-      const linhas = areaTexto.split('\n');
-      let sucesso = 0;
-      let erros = 0;
+    const linhas = areaTexto.split('\n');
+    let sucesso = 0;
+    let erros = 0;
 
-      linhas.forEach((linha, i) => {
-        try {
-          const obj = JSON.parse(linha);
-          db.collection('consulta').add(obj).then(() => {
-            sucesso++;
-            if (sucesso + erros === linhas.length) alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
-          });
-        } catch (e) {
-          console.error(`Erro na linha ${i + 1}:`, e);
-          erros++;
-          if (sucesso + erros === linhas.length) alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
+    linhas.forEach((linha, i) => {
+      try {
+        // Tentar corrigir aspas no campo descricao de forma simples
+        let linhaCorrigida = linha.replace(/("descricao"\s*:\s*")([^"]*?)(")/g, (_, inicio, valor, fim) => {
+          const corrigido = valor.replace(/"/g, '\\"'); // escapa aspas internas
+          return `${inicio}${corrigido}${fim}`;
+        });
+
+        const obj = JSON.parse(linhaCorrigida);
+
+        db.collection('consulta').add(obj).then(() => {
+          sucesso++;
+          if (sucesso + erros === linhas.length) {
+            alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
+          }
+        });
+      } catch (e) {
+        console.error(`Erro na linha ${i + 1}:`, e);
+        erros++;
+        if (sucesso + erros === linhas.length) {
+          alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
         }
-      });
-    }
+      }
+    });
+  }
 
     async function excluirDuplicados() {
       const snapshot = await db.collection('consulta').get();
