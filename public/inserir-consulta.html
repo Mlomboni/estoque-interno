@@ -24,7 +24,7 @@
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     textarea { width: 100%; height: 200px; }
-    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; margin-right: 10px; }
   </style>
 </head>
 
@@ -44,6 +44,7 @@
 
   <br>
   <button onclick="inserirDados()">Inserir no Firestore</button>
+  <button onclick="excluirDuplicados()">Excluir Duplicados</button>
 
   <script>
     function inserirDados() {
@@ -67,6 +68,31 @@
           if (sucesso + erros === linhas.length) alert(`Inserção concluída. ${sucesso} ok, ${erros} erro(s).`);
         }
       });
+    }
+
+    async function excluirDuplicados() {
+      const snapshot = await db.collection('consulta').get();
+      const mapDescricao = new Map();
+      let excluidos = 0;
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (!data.descricao) return;
+
+        const chave = data.descricao.trim().toLowerCase();
+
+        if (mapDescricao.has(chave)) {
+          // Já existe, marcar para exclusão
+          db.collection('consulta').doc(doc.id).delete().then(() => {
+            excluidos++;
+            if (excluidos % 10 === 0) console.log(`${excluidos} duplicados removidos...`);
+          });
+        } else {
+          mapDescricao.set(chave, doc.id);
+        }
+      });
+
+      alert('Processo de remoção iniciado. Verifique o console para progresso.');
     }
   </script>
 </body>
